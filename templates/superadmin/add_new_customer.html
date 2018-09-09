@@ -1,0 +1,111 @@
+{% extends 'common/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    Add Customer
+{% endblock %}
+
+{% block body %}
+  {% if error %}
+    <div class="alert alert-danger">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <strong>Error!</strong> {{ msg }}
+    </div>
+  {% endif %}
+  <form class="form-horizontal col-sm-offset-2 col-sm-6" action="{% url 'add_customer' %}" name="loginForm" method="POST">
+    {% csrf_token %}
+    <h2 class="form-signin-heading" style="text-align: center">Customer Form</h2>
+    <br>
+    <div class="form-group">
+      <label class="control-label col-sm-3" for="inputDomainURL">Domain URL:</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" id="inputDomainURL" placeholder="<sample>.localhost.com" name="domain_url">
+      </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="inputSchemaName">Schema Name:</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" id="inputSchemaName" placeholder="Schema Name" name="schema_name">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="inputName">Name:</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" id="inputName" placeholder="Name" name="name">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="inputDate">Paid Until:</label>
+        <div class="col-sm-9">
+            <input type="date" class="form-control" id="inputDate" placeholder="Date" name="paid_until">
+        </div>
+    </div>
+    <div class="form-group">        
+      <div class="col-sm-offset-3 col-sm-9">
+        <div class="checkbox">
+          <label><input type="checkbox" name="on_trial"> On Trial</label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">        
+      <div class="col-sm-offset-3 col-sm-9">
+        <button class="btn btn-md btn-primary btn-block" type="submit">
+                <span class="signInSpan">Submit</span>
+                <div class="loader hide"></div>
+              </button>
+      </div>
+    </div>
+  </form>
+  <script src="{% static 'js/jquery.validate.min.js' %}"></script>
+  <script>
+    /*$('button').click(function (event) {
+      event.preventDefault();
+      if ($('#inputEmail').val() && $('#inputPassword').val()) {
+        $('.signInSpan').addClass('hide');
+        $('.loader').removeClass('hide');
+        $('.form-signin').submit();
+      }
+    });*/
+
+    // Wait for the DOM to be ready
+    $(function () {
+      // Initialize form validation on the registration form.
+      // It has the name attribute "registration"
+      $("form[name='loginForm").validate({
+        // Specify validation rules
+        rules: {
+          // The key name on the left side is the name attribute
+          // of an input field. Validation rules are defined
+          // on the right side
+          domain_url: {
+            required: true,
+          },
+          schema_name: {
+            required: true,
+          },
+          name: {
+            required: true,
+          },
+          paid_until: {
+              required: true
+          },
+        },
+        // Specify validation error messages
+        messages: {
+            domain_url: "<p>Please enter domainurl address</p>",
+            schema_name: "<p>Please enter schema name</p>",
+            name: "<p>Please enter name</p>",
+            paid_until: "<p>Please enter date</p>",
+        },
+        // Make sure the form is submitted to the destination defined
+        // in the "action" attribute of the form when valid
+        submitHandler: function (form) {
+          $('.signInSpan').addClass('hide');
+          $('.loader').removeClass('hide');
+          form.submit();
+        }
+      })
+    });
+  </script>
+{% endblock %}

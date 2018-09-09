@@ -1,0 +1,6 @@
+.idea/
+*.pyc
+*.pot
+*/migrations/
+__pycache__/
+media/

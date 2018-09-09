@@ -1,0 +1,21 @@
+{% extends 'common/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    Cusomer Management
+{% endblock %}
+
+{% block body %}
+  <div class="row">
+      <h1 class="col-sm-5">Customer Management</h1>
+      <a href="{% url 'add_customer' %}" style="float: right;" class="btn btn-primary col-md-2">Add New Customer</a>
+  </div>
+
+  <div class="col-sm-5">
+      <ul class="list-group">
+          {% for customer in customers %}
+          <li class="list-group-item">{{customer.domain_url}}</li>
+          {% endfor %}
+        </ul>
+  </div> 
+{% endblock %}

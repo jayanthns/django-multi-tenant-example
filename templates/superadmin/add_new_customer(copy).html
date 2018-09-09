@@ -1,0 +1,97 @@
+{% extends 'common/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    Add Customer
+{% endblock %}
+
+{% block body %}
+  {% if error %}
+    <div class="alert alert-danger">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <strong>Error!</strong> {{ msg }}
+    </div>
+  {% endif %}
+  <form class="form-signin form-horizontal" action="{% url 'add_customer' %}" method="post" name="loginForm">
+    {% csrf_token %}
+    <h2 class="form-signin-heading">Customer Form</h2>
+    <label for="inputDomainURL">Domain URL</label>
+    <input type="text" id="inputDomainURL" name="domainURL" class="form-control" placeholder="sample.localhost.com" required
+           autofocus>
+    <br>
+    <label for="inputSchemaName">Schema Name</label>
+    <input type="text" id="inputSchemaName" name="schemaName" class="form-control" placeholder="Some Schema Name" required>
+    <br>
+    <label for="inputName">Name</label>
+    <input type="text" id="inputName" name="name" class="form-control" placeholder="Some Name" required>
+    <br>
+    <label for="inputDate">Paid Until</label>
+    <input type="date" id="inputDate" name="paidUntilDate" class="form-control" placeholder="Select date" required>
+    <br>
+    <input type="checkbox" id="inputCheckbox" name="onTrial"> On Trial
+    <br>
+
+    <!-- <div class="checkbox">
+      <label>
+        <input type="checkbox" value="remember-me"> Remember me
+      </label>
+    </div> -->
+    <br>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">
+      <span class="signInSpan">Submit</span>
+      <div class="loader hide"></div>
+    </button>
+  </form>
+  <script src="{% static 'js/jquery.validate.min.js' %}"></script>
+  <script>
+    /*$('button').click(function (event) {
+      event.preventDefault();
+      if ($('#inputEmail').val() && $('#inputPassword').val()) {
+        $('.signInSpan').addClass('hide');
+        $('.loader').removeClass('hide');
+        $('.form-signin').submit();
+      }
+    });*/
+
+    // Wait for the DOM to be ready
+    $(function () {
+      // Initialize form validation on the registration form.
+      // It has the name attribute "registration"
+      $("form[name='loginForm").validate({
+        // Specify validation rules
+        rules: {
+          // The key name on the left side is the name attribute
+          // of an input field. Validation rules are defined
+          // on the right side
+          domainURL: {
+            required: true,
+          },
+          schemaName: {
+            required: true,
+          },
+          name: {
+            required: true,
+          },
+          password: {
+            required: true,
+            minlength: 8,
+            maxlength: 12
+          }
+        },
+        // Specify validation error messages
+        messages: {
+            domainURL: "<p>Please enter domainurl address</p>",
+            schemaName: "<p>Please enter schema name</p>",
+            name: "<p>Please enter name</p>",
+        },
+        // Make sure the form is submitted to the destination defined
+        // in the "action" attribute of the form when valid
+        submitHandler: function (form) {
+          $('.signInSpan').addClass('hide');
+          $('.loader').removeClass('hide');
+          form.submit();
+        }
+      })
+    });
+  </script>
+{% endblock %}
