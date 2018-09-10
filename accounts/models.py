@@ -117,6 +117,7 @@ class Profile(models.Model):
     secondary_ph_number = models.CharField(max_length=15, null=True)
     dob = models.DateField(null=True)
     gender = models.CharField(max_length=50, null=True)
+    role = models.CharField(max_length=100, default='')
 
 
 class Team(models.Model):

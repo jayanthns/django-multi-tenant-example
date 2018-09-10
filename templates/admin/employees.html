@@ -26,10 +26,10 @@
                 <tbody>
                     {% for employee in employees %}
                         <tr>
-                            <td>{{employee.first_name | title}}</td>
-                            <td>{{employee.age}}</td>
+                            <td>{{employee.profile.first_name | title}}</td>
+                            <td>{{employee.profile.age}}</td>
                             <td>{{employee.email}}</td>
-                            <td>{{employee.gender}}</td>
+                            <td>{{employee.profile.gender}}</td>
                             <td>
                                 <form action="{% url 'delete_employee' %}" id="submitForm" method="POST">
                                     {% csrf_token %}

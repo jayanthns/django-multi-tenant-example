@@ -22,7 +22,8 @@ class LoginView(View):
         email = request.POST.get('email')
         password = request.POST.get('password')
         user = authenticate(request, email=email, password=password)
-        if not user:
+        if not user or user.is_anonymous:
+            messages.warning(request, 'Invalid auth credentials.')
             return redirect('account_logout')
         login(request, user)
         messages.success(request, 'You are logged out successfully.')
@@ -30,11 +31,12 @@ class LoginView(View):
             return redirect('customers')
         if user.is_superuser:
             return redirect('employees')
+        else:
+            return redirect('employee_detail')
         return redirect('index')
 
 
 def logout(request):
     print("AM IIII")
     d_logout(request)
-    messages.success(request, 'You are logged out successfully.')
     return redirect('account_login')

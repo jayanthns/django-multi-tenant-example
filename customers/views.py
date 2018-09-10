@@ -63,7 +63,7 @@ class DeleteCustomerView(View):
             site = Site.objects.filter(domain=client.domain_url).first()
             if site:
                 site.delete()
-            client.delete()
+            client.delete(force_drop=True)
             messages.success(request, "Company is deleted.")
             return redirect('customers')
         except:
@@ -93,8 +93,9 @@ class AddEmployeeView(View):
         # Invite mail logic here
         profile = Profile(
             user_id=account.id,
-            first_name=request.POST.get('name'),
-            last_name=request.POST.get('name'),
+            first_name=request.POST.get('first_name'),
+            last_name=request.POST.get('last_name', ''),
+            role=request.POST.get('role')
         )
         profile.save()
         messages.success(request, 'New Employee added successfully.')
@@ -132,3 +133,31 @@ class DeleteEmployeeView(View):
             print(sys.exc_info())
             messages.info(request, "Something went wrong. Please try again")
             return redirect('employees')
+
+
+class GetEmployeeDetailView(View):
+    
+    def get(self, request):
+        if not request.user.is_authenticated:
+            return redirect('account_logout')
+        if request.user.is_superuser:
+            return redirect('employees')
+        tab_list = [
+            {'tab_name': 'My Profile', 'url': 'employee_detail'},
+            # {'tab_name': 'Team Management', 'url': 'teams'}
+        ]
+        return render(request, 'employee/details.html', {'tab_list': tab_list})
+
+
+class UpdateEmployeeView(View):
+
+    def get(self, request):
+        if not request.user.is_authenticated:
+            return redirect('account_logout')
+        if request.user.is_superuser:
+            return redirect('employees')
+        tab_list = [
+            {'tab_name': 'My Profile', 'url': 'employee_detail'},
+            # {'tab_name': 'Team Management', 'url': 'teams'}
+        ]
+        return render(request, 'employee/profile_update_form.html', {'tab_list': tab_list})

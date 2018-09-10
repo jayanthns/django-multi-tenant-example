@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title %}
-    Add Customer
+    My Detail
 {% endblock %}
 
 {% block body %}
@@ -14,44 +14,42 @@
   {% endif %}
   <form class="form-horizontal col-sm-offset-2 col-sm-6" action="{% url 'add_employee' %}" name="loginForm" method="POST">
     {% csrf_token %}
-    <h2 class="form-signin-heading" style="text-align: center">Create Emplyee Form</h2>
+    <h2 class="form-signin-heading" style="text-align: center">Update Form </h2>
     <br>
     <div class="form-group">
       <label class="control-label col-sm-3" for="inputName">First Name</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="inputName" placeholder="name" name="first_name">
+        <input type="text" class="form-control" id="inputName" placeholder="name" name="first_name" value={{user.profile.first_name}}>
       </div>
     </div>
     <div class="form-group">
       <label class="control-label col-sm-3" for="inputName1">Last Name</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="inputName1" placeholder="name" name="last_name">
+        <input type="text" class="form-control" id="inputName1" placeholder="name" name="last_name" value={{user.profile.last_name}}>
+      </div>
+    </div>
+    <div class="form-group disabled">
+        <label class="control-label col-sm-3" for="inputEmail">Email: </label>
+        <div class="col-sm-9">
+            <span class="form-control">{{user.email}}</span>
+        </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-3" for="age">Age:</label>
+      <div class="col-sm-9">
+        <input type="number" class="form-control" id="age" placeholder="name" name="age" value={{user.profile.age}}>
       </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-sm-3" for="inputEmail">Email: </label>
-        <div class="col-sm-9">
-            <input type="email" class="form-control" id="inputEmail" placeholder="email" name="email">
-        </div>
+      <label class="control-label col-sm-3" for="dob">DOB:</label>
+      <div class="col-sm-9">
+        <input type="date" class="form-control" id="dob" placeholder="name" name="dob" value={{user.profile.dob}}>
+      </div>
     </div>
-
-    <div class="form-group">
-        <label class="control-label col-sm-3" for="inputPassword">Password:</label>
-        <div class="col-sm-9">
-            <input type="password" class="form-control" id="inputPassword" placeholder="password" name="password">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-sm-3" for="inputConfirmPassword">Confirm Password:</label>
-        <div class="col-sm-9">
-            <input type="password" class="form-control" id="inputConfirmPassword" placeholder="password" name="confirmPassword">
-        </div>
-    </div>
-
     <div class="form-group">
         <label class="control-label col-sm-3" for="inputRole">Role:</label>
         <div class="col-sm-9">
-            <input type="text" class="form-control" id="inputRole" placeholder="Role" name="role">
+          <span class="form-control">{{user.profile.role}}</span>
         </div>
     </div>
     
@@ -85,17 +83,11 @@
           // The key name on the left side is the name attribute
           // of an input field. Validation rules are defined
           // on the right side
-          first_name: {
+          name: {
             required: true,
           },
           email: {
             required: true,
-          },
-          password: {
-            required: true,
-          },
-          confirmPassword: {
-              required: true
           },
           role: {
             required: true
@@ -103,7 +95,7 @@
         },
         // Specify validation error messages
         messages: {
-            first_name: "<p>Please enter name of an employee</p>",
+            name: "<p>Please enter name of an employee</p>",
             email: "<p>Please enter email id of an employee</p>",
             role: "<p>Please enter role id of an employee</p>",
         },
