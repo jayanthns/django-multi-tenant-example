@@ -25,9 +25,11 @@ class LoginView(View):
         if not user:
             return redirect('account_logout')
         login(request, user)
+        messages.success(request, 'You are logged out successfully.')
         if request.tenant.schema_name == 'public':
             return redirect('customers')
-        messages.success(request, 'You are logged out successfully.')
+        if user.is_superuser:
+            return redirect('employees')
         return redirect('index')
 
 

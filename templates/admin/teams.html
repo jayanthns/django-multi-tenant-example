@@ -2,35 +2,35 @@
 {% load staticfiles %}
 
 {% block title %}
-    Cusomer Management
+    Team Management
 {% endblock %}
 
 {% block body %}
   <div class="row">
-      <h1 class="col-sm-5">Customer Management</h1>
-      <a href="{% url 'add_customer' %}" style="float: right;" class="btn btn-primary col-md-2">Add New Customer</a>
+      <h1 class="col-sm-5">team Management</h1>
+      <a href="{% url 'add_team' %}" style="float: right;" class="btn btn-primary col-md-2">Create a Team</a>
   </div>
 
   <div class="col-sm-5">
-        {% if customers|length > 0 %}
+        {% if teams|length > 0 %}
         <table class="table table-hover">
             <thead>
                 <tr>
-                <th>Company name</th>
-                <th>Domain URL</th>
+                <th>Team name</th>
+                <th>Size</th>
                 <th>Delete</th>
                 </tr>
             </thead>
                 <tbody>
-                    {% for customer in customers %}
+                    {% for team in teams %}
                         <tr>
                             <td>{{customer.name | title}}</td>
-                            <td> <a href={{customer.domain_url}}></a>{{customer.domain_url}}</td>
+                            <td>{{team.size}}</td>
                             <td>
-                                <form action="{% url 'delete_customer' %}" id="submitForm" method="POST">
+                                <form action="{% url 'delete_team' %}" id="submitForm" method="POST">
                                     {% csrf_token %}
-                                        <input type="text" value={{customer.id}} class="hide" name="customer_id">
-                                        <button class="btn btn-default btn-sm" col-sm-2 onclick="deleteFunction()">Delete Company</button>
+                                        <input type="text" value={{team.id}} class="hide" name="team_id">
+                                        <button class="btn btn-default btn-sm" col-sm-2 onclick="deleteFunction()">Delete Team</button>
                                 </form>
                             </td>
                         </tr>
@@ -38,7 +38,7 @@
                 </tbody>
               </table>
             {% else %}
-                <div>No Companies</div>
+                <div>No Teams</div>
             {% endif %}
   </div> 
   <script>

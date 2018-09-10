@@ -1,0 +1,56 @@
+{% extends 'common/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    Employee Management
+{% endblock %}
+
+{% block body %}
+  <div class="row">
+      <h1 class="col-sm-5">Employee Management</h1>
+      <a href="{% url 'add_employee' %}" style="float: right;" class="btn btn-primary col-md-2">Add Employee</a>
+  </div>
+
+  <div class="col-sm-5">
+        {% if employees|length > 0 %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                <th>Employee Name</th>
+                <th>Age</th>
+                <th>Email</th>
+                <th>Gender</th>
+                <th>Delete</th>
+                </tr>
+            </thead>
+                <tbody>
+                    {% for employee in employees %}
+                        <tr>
+                            <td>{{employee.first_name | title}}</td>
+                            <td>{{employee.age}}</td>
+                            <td>{{employee.email}}</td>
+                            <td>{{employee.gender}}</td>
+                            <td>
+                                <form action="{% url 'delete_employee' %}" id="submitForm" method="POST">
+                                    {% csrf_token %}
+                                        <input type="text" value={{employee.id}} class="hide" name="employee_id">
+                                        <button class="btn btn-default btn-sm" col-sm-2 onclick="deleteFunction()">Delete Employee</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+            {% else %}
+                <div>No Employers</div>
+            {% endif %}
+  </div> 
+  <script>
+         function deleteFunction() {
+            event.preventDefault()
+            if (confirm("Are you sure.?")) {
+                $("#submitForm").submit()
+            }
+         }
+  </script>
+{% endblock %}

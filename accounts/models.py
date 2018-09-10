@@ -117,3 +117,12 @@ class Profile(models.Model):
     secondary_ph_number = models.CharField(max_length=15, null=True)
     dob = models.DateField(null=True)
     gender = models.CharField(max_length=50, null=True)
+
+
+class Team(models.Model):
+    name = models.CharField(max_length=100)
+    size = models.IntegerField(default=0)
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    def __str__(sel):
+        return self.name
