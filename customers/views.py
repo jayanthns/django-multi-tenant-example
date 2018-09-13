@@ -110,9 +110,12 @@ class EmployeesView(View):
             {'tab_name': 'Employee Management', 'url': 'employees'},
             # {'tab_name': 'Team Management', 'url': 'teams'}
         ]
-        employees = Account.objects.filter(is_superuser=False)
+            employees = Account.objects.filter(is_superuser=False)
 
-        return render(request, 'admin/employees.html', {'employees': employees, 'tab_list': tab_list})
+            return render(request, 'admin/employees.html', {'employees': employees, 'tab_list': tab_list})
+        if request.user.is_authenticated():
+            return redirect('employee_detail')
+        return redirect('account_logout')
 
 
 class DeleteEmployeeView(View):
@@ -161,3 +164,21 @@ class UpdateEmployeeView(View):
             # {'tab_name': 'Team Management', 'url': 'teams'}
         ]
         return render(request, 'employee/profile_update_form.html', {'tab_list': tab_list})
+
+    def post(self, request):
+        if not request.user.is_authenticated:
+            return redirect('account_logout')
+        if request.user.is_superuser:
+            return redirect('employees')
+        tab_list = [
+            {'tab_name': 'My Profile', 'url': 'employee_detail'},
+            # {'tab_name': 'Team Management', 'url': 'teams'}
+        ]
+        print(request.POST)
+        profile = request.user.profile
+        profile.first_name = request.POST.get('first_name', profile.first_name)
+        profile.last_name = request.POST.get('last_name', profile.last_name)
+        profile.gender = request.POST.get('gender', profile.gender)
+        profile.save()
+        messages.success(request, 'Profile updated successfully.')
+        return redirect('employee_detail')

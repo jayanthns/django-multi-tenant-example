@@ -26,7 +26,6 @@ class LoginView(View):
             messages.warning(request, 'Invalid auth credentials.')
             return redirect('account_logout')
         login(request, user)
-        messages.success(request, 'You are logged out successfully.')
         if request.tenant.schema_name == 'public':
             return redirect('customers')
         if user.is_superuser:

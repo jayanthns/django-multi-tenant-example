@@ -108,16 +108,19 @@ class Profile(models.Model):
         on_delete=models.CASCADE,
         primary_key=True
     )
-    first_name = models.CharField(max_length=250, null=True)
-    last_name = models.CharField(max_length=250, null=True)
-    ph_number = models.CharField(max_length=15, null=True)
-    zipcode = models.CharField(max_length=10, null=True)
-    address1 = models.CharField(max_length=500, null=True)
-    address2 = models.CharField(max_length=500, null=True)
-    secondary_ph_number = models.CharField(max_length=15, null=True)
+    first_name = models.CharField(max_length=250, null=True, default="")
+    last_name = models.CharField(max_length=250, null=True, default="")
+    ph_number = models.CharField(max_length=15, null=True, default="")
+    zipcode = models.CharField(max_length=10, null=True, default="")
+    address1 = models.CharField(max_length=500, null=True, default="")
+    address2 = models.CharField(max_length=500, null=True, default="")
+    secondary_ph_number = models.CharField(max_length=15, null=True, default="")
     dob = models.DateField(null=True)
-    gender = models.CharField(max_length=50, null=True)
+    gender = models.CharField(max_length=50, null=True, default="")
     role = models.CharField(max_length=100, default='')
+
+    def dob_value(self):
+        return '' if not self.dob else self.dob.strftime("%d-%m-%Y")
 
 
 class Team(models.Model):

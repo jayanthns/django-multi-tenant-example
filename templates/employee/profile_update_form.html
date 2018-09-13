@@ -12,7 +12,7 @@
       <strong>Error!</strong> {{ msg }}
     </div>
   {% endif %}
-  <form class="form-horizontal col-sm-offset-2 col-sm-6" action="{% url 'add_employee' %}" name="loginForm" method="POST">
+  <form class="form-horizontal col-sm-offset-2 col-sm-6" action="{% url 'update_profile' %}" name="loginForm" method="POST">
     {% csrf_token %}
     <h2 class="form-signin-heading" style="text-align: center">Update Form </h2>
     <br>
@@ -35,15 +35,9 @@
         </div>
     </div>
     <div class="form-group">
-      <label class="control-label col-sm-3" for="age">Age:</label>
+      <label class="control-label col-sm-3" for="age">Gender:</label>
       <div class="col-sm-9">
-        <input type="number" class="form-control" id="age" placeholder="name" name="age" value={{user.profile.age}}>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label col-sm-3" for="dob">DOB:</label>
-      <div class="col-sm-9">
-        <input type="date" class="form-control" id="dob" placeholder="name" name="dob" value={{user.profile.dob}}>
+        <input type="text" class="form-control" id="age" placeholder="gender text" name="gender" value={{user.profile.gender}}>
       </div>
     </div>
     <div class="form-group">
